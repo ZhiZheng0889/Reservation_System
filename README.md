@@ -21,7 +21,13 @@
 
 ## Product Backlog
 
-### Prerequisites
+### Prerequisites (US-00)
+
+#### Devops
+
+Create github action pipelines to build, and verify tests work for the front end and backend.
+
+Potentially create github action to ensure migrations work by running a local database on the github action.
 
 #### Frontend 
 
@@ -34,10 +40,6 @@ Connect entity framework core:
 - Setup appsettings and configuration (similar to .env file).
 - Create database context and related entities (none for now).a
 - Setup entity framework migration infrastructure.
-
-#### Devops
-
-Create github action pipelines to build, and verify tests work for the front end and backend.
 
 ### US-01 Create and list reservations
 

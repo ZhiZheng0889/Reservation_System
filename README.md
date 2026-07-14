@@ -13,11 +13,31 @@
 - ORM: EF Core (Entity Framework Core): https://learn.microsoft.com/en-us/ef/
 - PostgreSQL: https://www.postgresql.org/
 
+## Backend Infrastructure
+
+- Reservation.API: Contains api related code
+- Reservation.Infrastructure: Contains database persistence and infrastructure to get the app working.
+- Reservation.Application: Contains Services, Contracts, etc.
+
 ## Product Backlog
 
 ### Prerequisites
 
+#### Frontend 
+
 Create a navbar and basic layout with footer that can be reused on all the pages. Style the not found page.
+
+#### Backend
+
+Connect entity framework core:
+- Setup dockerfile to create postgresql database.
+- Setup appsettings and configuration (similar to .env file).
+- Create database context and related entities (none for now).a
+- Setup entity framework migration infrastructure.
+
+#### Devops
+
+Create github action pipelines to build, and verify tests work for the front end and backend.
 
 ### US-01 Create and list reservations
 

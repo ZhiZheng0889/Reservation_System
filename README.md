@@ -21,6 +21,63 @@
 
 ## Product Backlog
 
+## GitHub Actions CI (Build and Test)
+
+This repository now includes a workflow at `.github/workflows/build-and-test.yml`.
+
+It runs two independent jobs on every push and pull request:
+
+- Backend job:
+  - Restores .NET dependencies
+  - Builds the backend solution
+  - Runs unit tests
+- Frontend job:
+  - Installs npm dependencies with `npm ci`
+  - Builds Angular in production mode
+  - Runs unit tests in non-watch mode
+
+### Step-by-step guide
+
+1. Create a new branch and commit your code changes.
+2. Commit the workflow file:
+
+    ```bash
+    git add .github/workflows/build-and-test.yml
+    git commit -m "Add GitHub Actions CI for frontend and backend"
+    ```
+
+3. Push your branch to GitHub:
+
+    ```bash
+    git push origin <your-branch-name>
+    ```
+
+4. Open a pull request.
+5. Go to the GitHub Actions tab in your repository.
+6. Open the latest "Build and Test" run.
+7. Confirm both jobs are green:
+    - "Backend (.NET) - Build and Test"
+    - "Frontend (Angular) - Build and Test"
+
+### Run the same checks locally (optional)
+
+Backend:
+
+```bash
+dotnet restore backend/Reservation.slnx
+dotnet build backend/Reservation.slnx --configuration Release --no-restore
+dotnet test backend/Reservation.slnx --configuration Release --no-build
+```
+
+Frontend:
+
+```bash
+cd client
+npm ci
+npm run build -- --configuration production
+npm run test -- --watch=false
+```
+
 ### Prerequisites (US-00)
 
 #### Devops

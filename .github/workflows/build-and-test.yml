@@ -1,0 +1,59 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+
+jobs:
+  backend:
+    name: Backend (.NET) - Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore backend dependencies
+        run: dotnet restore backend/Reservation.slnx
+
+      - name: Build backend
+        run: dotnet build backend/Reservation.slnx --configuration Release --no-restore
+
+      - name: Test backend
+        run: dotnet test backend/Reservation.slnx --configuration Release --no-build --verbosity normal
+
+  frontend:
+    name: Frontend (Angular) - Build and Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build -- --configuration production
+
+      - name: Test frontend
+        run: npm run test -- --watch=false

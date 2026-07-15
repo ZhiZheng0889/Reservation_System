@@ -1,1 +1,6 @@
-<Solution />
+<Solution>
+  <Project Path="Reservation.API/Reservation.API.csproj" Id="bf43895c-2424-47fe-b240-1ae62dbd6eaa" />
+  <Project Path="Reservation.Application/Reservation.Application.csproj" Id="694b2d4a-bca7-462a-83ca-8261bcadf648" />
+  <Project Path="Reservation.Infrastructure/Reservation.Infrastructure.csproj" Id="d1313002-a818-4952-b57e-661c6033610c" />
+  <Project Path="Reservation.UnitTest/Reservation.UnitTest.csproj" Id="645621c5-043e-4005-821e-bb04b5866677" />
+</Solution>

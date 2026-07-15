@@ -1,5 +1,7 @@
 # Reserveration System
 
+[![Build and Test](https://github.com/ZhiZheng0889/Reservation_System/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/ZhiZheng0889/Reservation_System/actions/workflows/build-and-test.yml)
+
 ## Tech Stack
 
 ### Frontend
@@ -84,8 +86,6 @@ npm run test -- --watch=false
 
 Create github action pipelines to build, and verify tests work for the front end and backend.
 
-[![Build and Test](https://github.com/OWNER/REPO/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/OWNER/REPO/actions/workflows/build-and-test.yml)
-
 Potentially create github action to ensure migrations work by running a local database on the github action.
 
 #### Frontend 
@@ -122,4 +122,4 @@ Acceptance Criteria
     - list all reservations for one date only. (E.g. if the URL is /dashboard?date=2035-12-30 then send a GET to /reservations?date=2035-12-30 to list the reservations for that date). The date is defaulted to today, and the reservations are sorted by time.
     - display next, previous, and today buttons that allow the user to see reservations on other dates
     - display any error messages returned from the API
-    The /reservations API will have the same validations as above and will return 400, along with an informative error message, when a validation error happens. 
+    The /reservations API will have the same validations as above and will return 400, along with an informative error message, when a validation error happens.

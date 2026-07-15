@@ -84,7 +84,7 @@ npm run test -- --watch=false
 
 #### Devops
 
-Create github action pipelines to build, and verify tests work for the front end and backend.
+* Create github action pipelines to build, and verify tests work for the front end and backend.
 
 Potentially create github action to ensure migrations work by running a local database on the github action.
 

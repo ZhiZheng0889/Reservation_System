@@ -84,6 +84,8 @@ npm run test -- --watch=false
 
 Create github action pipelines to build, and verify tests work for the front end and backend.
 
+[![Build and Test](https://github.com/OWNER/REPO/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/OWNER/REPO/actions/workflows/build-and-test.yml)
+
 Potentially create github action to ensure migrations work by running a local database on the github action.
 
 #### Frontend 

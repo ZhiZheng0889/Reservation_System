@@ -1,5 +1,9 @@
-<router-outlet />
+<header>
+    <app-navbar />
+</header>
 
-expect(compiled.querySelector('h1')?.textContent)
-  .toContain('Hello, client');  
-  <h1>Angular</h1>
+<main class="container py-4">
+    <rounter-outlet />
+</main>
+
+<app-footer />

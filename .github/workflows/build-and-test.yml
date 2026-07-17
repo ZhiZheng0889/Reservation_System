@@ -3,10 +3,10 @@ name: Build and Test
 on:
   push:
     branches:
-      - "**"
+      - main
   pull_request:
     branches:
-      - "**"
+      - main
 
 jobs:
   backend:
@@ -31,6 +31,58 @@ jobs:
       - name: Test backend
         run: dotnet test backend/Reservation.slnx --configuration Release --no-build --verbosity normal
 
+
+
+  migrations:
+    name: Database Migration Test
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: reservation_test
+          POSTGRES_USER: reservation
+          POSTGRES_PASSWORD: reservation
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U reservation -d reservation_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: Host=localhost;Port=5432;Database=reservation_test;Username=reservation;Password=reservation
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore backend/Reservation.slnx
+
+      - name: Restore EF tool
+        run: dotnet tool restore
+
+      - name: Build backend
+        run: dotnet build backend/Reservation.slnx --configuration Release --no-restore
+
+      - name: Apply migrations
+        run: >
+          dotnet ef database update
+          --project backend/Reservation.Infrastructure
+          --startup-project backend/Reservation.API
+          --context ReservationDbContext
+          --configuration Release
+          --no-build
+  
   frontend:
     name: Frontend (Angular) - Build and Test
     runs-on: ubuntu-latest

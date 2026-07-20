@@ -33,9 +33,10 @@ describe('Navbar', () => {
 
         const element = fixture.nativeElement as HTMLElement;
 
-        const link = element.querySelector('a[href ="/dashboard"]') as HTMLAnchorElement | null;
+        const links = Array.from(element.querySelectorAll('a'));
+        const link = links.find(anchor => anchor.textContent?.trim() === 'Dashboard');
         expect(link).toBeTruthy();
-        expect(link?.textContent?.trim()).toBe('Dashboard');
+        expect(link?.getAttribute('href')).toContain('/dashboard');
     });
 
     it('should link to the new reservations page', () => {
@@ -43,8 +44,13 @@ describe('Navbar', () => {
         fixture.detectChanges();
 
         const element = fixture.nativeElement as HTMLElement;
-        const link = element.querySelector('a[href ="/reservations/new"]') as HTMLAnchorElement | null;
+        const links = Array.from(element.querySelectorAll('a'));
+
+        const link = links.find(anchor => anchor.textContent?.trim() === 'New Reservation');
+
         expect(link).toBeTruthy();
-        expect(link?.textContent?.trim()).toBe('New Reservation');
-    })
+        expect(link?.getAttribute('href')).toContain('/reservations/new');
+    });
+
+        
 });

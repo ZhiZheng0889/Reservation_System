@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import { Navbar } from './navbar';
 
 describe('Navbar', () => {
-    beforeEach(() => {async () => {
+    beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [Navbar],
             providers: [provideRouter([])],

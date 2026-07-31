@@ -16,14 +16,11 @@ describe('Navbar', () => {
     });
 
     it('should create', () => { 
-        fixture.whenStable();
         expect(fixture.componentInstance).toBeTruthy();
 
     });
 
     it('should display the application name', () => {
-        fixture.whenStable();
-
         const element = fixture.nativeElement as HTMLElement;
 
         expect(element.textContent).toContain('Reservation System');
@@ -31,8 +28,6 @@ describe('Navbar', () => {
     });
 
     it('should link to the dashboard', () => {
-        fixture.whenStable();
-
         const element = fixture.nativeElement as HTMLElement;
 
         const links = Array.from(element.querySelectorAll('a'));
@@ -42,8 +37,6 @@ describe('Navbar', () => {
     });
 
     it('should link to the new reservations page', () => {
-        fixture.whenStable();
-
         const element = fixture.nativeElement as HTMLElement;
         const links = Array.from(element.querySelectorAll('a'));
 

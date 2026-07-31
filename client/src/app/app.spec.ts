@@ -15,26 +15,22 @@ describe('App', () => {
   });
 
   it('should create the app', () => {
-    fixture.whenStable();
     expect(fixture.componentInstance).toBeTruthy();
   });
 
   it('should render the navbar', () => {
-    fixture.whenStable();
     expect(
       fixture.nativeElement.querySelector('app-navbar')
     ).toBeTruthy();
   });
 
   it('should render the router outlet', () => {
-    fixture.whenStable();
     expect(
       fixture.nativeElement.querySelector('router-outlet')
     ).toBeTruthy();
   });
 
   it('should render the footer', () => {
-    fixture.whenStable();
     expect(
       fixture.nativeElement.querySelector('app-footer')
     ).toBeTruthy();

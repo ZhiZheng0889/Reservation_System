@@ -1,25 +1,28 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { Navbar } from './navbar';
 
 describe('Navbar', () => {
+    
+    let fixture: ComponentFixture<Navbar>;
+
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [Navbar],
             providers: [provideRouter([])],
         }).compileComponents();
+        fixture = TestBed.createComponent(Navbar);
+        await fixture.whenStable();
     });
 
     it('should create', () => { 
-        const fixture = TestBed.createComponent(Navbar);
-
+        fixture.whenStable();
         expect(fixture.componentInstance).toBeTruthy();
 
     });
 
     it('should display the application name', () => {
-        const fixture = TestBed.createComponent(Navbar);
-        fixture.detectChanges();
+        fixture.whenStable();
 
         const element = fixture.nativeElement as HTMLElement;
 
@@ -28,8 +31,7 @@ describe('Navbar', () => {
     });
 
     it('should link to the dashboard', () => {
-        const fixture = TestBed.createComponent(Navbar);
-        fixture.detectChanges();
+        fixture.whenStable();
 
         const element = fixture.nativeElement as HTMLElement;
 
@@ -40,8 +42,7 @@ describe('Navbar', () => {
     });
 
     it('should link to the new reservations page', () => {
-        const fixture = TestBed.createComponent(Navbar);
-        fixture.detectChanges();
+        fixture.whenStable();
 
         const element = fixture.nativeElement as HTMLElement;
         const links = Array.from(element.querySelectorAll('a'));

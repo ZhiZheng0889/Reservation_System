@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Reservation.Application.Reservations;
 using Reservation.Infrastructure.Persistence;
-namespace Reservation.Infrastructure.Reservations;
 using ReservationEntity =
     Reservation.Application.Reservations.Reservation;
-
+    
+namespace Reservation.Infrastructure.Reservations;
 public sealed class ReservationService(
     ReservationDbContext dbContext
 ) : IReservationService

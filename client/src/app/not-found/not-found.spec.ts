@@ -1,22 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { RouterTestingHarness } from '@angular/router/testing';
 
 import { NotFound } from './not-found';
 
 describe('NotFound', () => {
-  let component: NotFound;
-  let fixture: ComponentFixture<NotFound>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  it('should create', async () => {
+    TestBed.configureTestingModule({
       imports: [NotFound],
-    }).compileComponents();
+      providers: [provideRouter([{ path: 'not-found', component: NotFound }])],
+    });
 
-    fixture = TestBed.createComponent(NotFound);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
-  });
+    const harness = await RouterTestingHarness.create();
 
-  it('should create', () => {
+    const component = await harness.navigateByUrl('/not-found', NotFound);
+
     expect(component).toBeTruthy();
+
   });
 });

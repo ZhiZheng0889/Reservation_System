@@ -2,26 +2,20 @@ using Microsoft.AspNetCore.Mvc;
 using Reservation.API.Contracts.Reservations;
 using Reservation.Application.Reservations;
 
-using ReservationEntity =
-    Reservation.Application.Reservations.Reservation;
+using ReservationEntity = Reservation.Application.Reservations.Reservation;
 
 namespace Reservation.API.Controllers;
 
 [ApiController]
 [Route("reservations")]
-public sealed class ReservationsController(
-    IReservationService reservationService
-) : ControllerBase
+public sealed class ReservationsController(IReservationService reservationService) : ControllerBase
 {
     [HttpPost]
-    [ProducesResponseType<ReservationResponse>(StatusCodes.Status201Created)]
-
+    [ProducesResponseType<int>(StatusCodes.Status201Created)]
     [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
-
-    public async Task<ActionResult<ReservationResponse>> Create(
+    public async Task<ActionResult<int>> Create(
         CreateReservationRequest request,
-        CancellationToken cancellationToken
-    )
+        CancellationToken cancellationToken)
     {
         var command = new CreateReservationCommand(
             request.FirstName,
@@ -30,52 +24,38 @@ public sealed class ReservationsController(
             request.Email,
             request.ReservationDate!.Value,
             request.ReservationTime.Value,
-            request.PeopleCount
-        );
+            request.PeopleCount);
 
-        var reservation = await reservationService.CreateAsync(
-            command, cancellationToken
-        );
+        var reservation = await reservationService.CreateAsync(command, cancellationToken);
 
-        var response = MapResponse(reservation);
-
-        return Created(
-            $"/reservations/{reservation.Id}",
-            response
-        );
+        return StatusCode(StatusCodes.Status201Created, reservation.Id);
     }
 
     [HttpGet]
     [ProducesResponseType<ReservationResponse[]>(StatusCodes.Status200OK)]
-    [ProducesResponseType( StatusCodes.Status400BadRequest)]
-
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<IReadOnlyList<ReservationResponse>>> GetForDate(
         [FromQuery] DateOnly? date,
-        CancellationToken cancellationToken
-    )
+        CancellationToken cancellationToken)
     {
         if (date is null)
         {
             return BadRequest(new ProblemDetails
             {
-            Title = "A reservation date is required.",
+                Title = "A reservation date is required.",
                 Detail = "Provide the date query parameter in YYYY-MM-DD format.",
                 Status = StatusCodes.Status400BadRequest
             });
         }
 
-        var reservations = await reservationService.GetForDateAsync(
-            date.Value, cancellationToken
-        );
+        var reservations = await reservationService.GetForDateAsync(date.Value, cancellationToken);
 
         var response = reservations.Select(MapResponse).ToList();
 
         return Ok(response);
     }
 
-    private static ReservationResponse MapResponse(
-        ReservationEntity reservation
-    )
+    private static ReservationResponse MapResponse(ReservationEntity reservation)
     {
         return new ReservationResponse(
             reservation.Id,
@@ -85,7 +65,6 @@ public sealed class ReservationsController(
             reservation.Email,
             reservation.ReservationDate,
             reservation.ReservationTime,
-            reservation.PeopleCount
-        );
+            reservation.PeopleCount);
     }
 }

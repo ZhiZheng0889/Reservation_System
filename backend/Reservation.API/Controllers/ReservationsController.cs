@@ -17,13 +17,33 @@ public sealed class ReservationsController(IReservationService reservationServic
         CreateReservationRequest request,
         CancellationToken cancellationToken)
     {
+        if (request.ReservationDate is not { } reservationDate ||
+            request.ReservationTime is not { } reservationTime)
+        {
+            if (request.ReservationDate is null)
+            {
+                ModelState.AddModelError(
+                    nameof(request.ReservationDate),
+                    "The reservation date is required.");
+            }
+
+            if (request.ReservationTime is null)
+            {
+                ModelState.AddModelError(
+                    nameof(request.ReservationTime),
+                    "The reservation time is required.");
+            }
+
+            return ValidationProblem(ModelState);
+        }
+
         var command = new CreateReservationCommand(
-            request.FirstName,
-            request.LastName,
-            request.MobileNumber,
-            request.Email,
-            request.ReservationDate!.Value,
-            request.ReservationTime.Value,
+            request.FirstName!,
+            request.LastName!,
+            request.MobileNumber!,
+            request.Email!,
+            reservationDate,
+            reservationTime,
             request.PeopleCount);
 
         var reservation = await reservationService.CreateAsync(command, cancellationToken);
@@ -61,8 +81,8 @@ public sealed class ReservationsController(IReservationService reservationServic
             reservation.Id,
             reservation.FirstName,
             reservation.LastName,
-            reservation.MobileNumber,
             reservation.Email,
+            reservation.MobileNumber,
             reservation.ReservationDate,
             reservation.ReservationTime,
             reservation.PeopleCount);

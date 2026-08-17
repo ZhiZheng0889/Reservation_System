@@ -1,0 +1,64 @@
+<section aria-labelledby="dashboard-heading">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+      <h1 id="dashboard-heading">Reservations</h1>
+      <p class="text-body-secondary mb-0">Reservations for {{ date }}</p>
+    </div>
+
+    <div class="btn-group" role="group" aria-label="Choose reservation date">
+      <button class="btn btn-outline-primary" type="button" (click)="previousDay()">
+        Previous
+      </button>
+      <button class="btn btn-outline-primary" type="button" (click)="today()">
+        Today
+      </button>
+      <button class="btn btn-outline-primary" type="button" (click)="nextDay()">
+        Next
+      </button>
+    </div>
+  </div>
+
+  @if (apiErrors.length > 0) {
+    <div class="alert alert-danger" role="alert">
+      <p class="fw-semibold mb-1">Reservations could not be loaded:</p>
+      <ul class="mb-0">
+        @for (message of apiErrors; track message) {
+          <li>{{ message }}</li>
+        }
+      </ul>
+    </div>
+  }
+
+  @if (isLoading) {
+    <p role="status">Loading reservations…</p>
+  } @else if (apiErrors.length === 0 && reservations.length === 0) {
+    <div class="alert alert-light border" role="status">
+      No reservations are scheduled for this date.
+    </div>
+  } @else if (reservations.length > 0) {
+    <div class="table-responsive border rounded">
+      <table class="table table-striped align-middle mb-0">
+        <thead>
+          <tr>
+            <th scope="col">Time</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Party</th>
+            <th scope="col">Mobile</th>
+            <th scope="col">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (reservation of reservations; track reservation.reservation_id) {
+            <tr>
+              <td>{{ displayTime(reservation.reservation_time) }}</td>
+              <td>{{ reservation.first_name }} {{ reservation.last_name }}</td>
+              <td>{{ reservation.people_count }}</td>
+              <td><a [href]="'tel:' + reservation.mobile_number">{{ reservation.mobile_number }}</a></td>
+              <td><a [href]="'mailto:' + reservation.email">{{ reservation.email }}</a></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

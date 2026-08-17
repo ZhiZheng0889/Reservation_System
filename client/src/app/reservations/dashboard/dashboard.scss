@@ -1,0 +1,8 @@
+:host {
+  display: block;
+}
+
+th:first-child,
+td:first-child {
+  white-space: nowrap;
+}

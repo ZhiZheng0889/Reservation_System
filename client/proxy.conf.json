@@ -1,0 +1,7 @@
+{
+  "/reservations": {
+    "target": "http://localhost:5055",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

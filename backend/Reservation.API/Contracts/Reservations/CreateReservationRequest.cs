@@ -6,23 +6,23 @@ namespace Reservation.API.Contracts.Reservations;
 public sealed class CreateReservationRequest
 {
     [Required(ErrorMessage = "First name is required.")]
-    [MaxLength(100)]
+    [MaxLength(100, ErrorMessage = "First name cannot be longer than 100 characters.")]
     [JsonPropertyName("first_name")]
     public string FirstName { get; init; } = string.Empty;
 
     [Required(ErrorMessage = "Last name is required.")]
-    [MaxLength(100)]
+    [MaxLength(100, ErrorMessage = "Last name cannot be longer than 100 characters.")]
     [JsonPropertyName("last_name")]
     public string LastName { get; init; } = string.Empty;
 
     [Required(ErrorMessage = "Email is required.")]
     [EmailAddress(ErrorMessage = "Invalid Email Address")]
-    [MaxLength(100)]
+    [MaxLength(100, ErrorMessage = "Email cannot be longer than 100 characters.")]
     [JsonPropertyName("email")]
     public string Email { get; init; } = string.Empty;
 
     [Required(ErrorMessage = "Mobile number is required.")]
-    [MaxLength(30)]
+    [MaxLength(30, ErrorMessage = "Mobile number cannot be longer than 30 characters.")]
     [JsonPropertyName("mobile_number")]
     public string MobileNumber { get; init; } = string.Empty;
 

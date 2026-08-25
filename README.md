@@ -123,4 +123,24 @@ Acceptance Criteria
     - list all reservations for one date only. (E.g. if the URL is /dashboard?date=2035-12-30 then send a GET to /reservations?date=2035-12-30 to list the reservations for that date). The date is defaulted to today, and the reservations are sorted by time.
     - display next, previous, and today buttons that allow the user to see reservations on other dates
     - display any error messages returned from the API
+
+### US-02 Create reservation on a future, working date
+
+As a restaurant manager
+I only want to allow reservations to be created on a day when we are open
+so that users do not accidentally create a reservation for days when we are closed.
+Acceptance criteria
+
+    The /reservations/new page will display an error message with className="alert alert-danger" if any of the following constraints are violated:
+        The reservation date is a Tuesday as the restaurant is closed on Tuesdays.
+        The reservation date is in the past. Only future reservations are allowed.
+    The /reservations API will have the same validations as above and will return 400, along with an informative error message, when a validation error happens.
+
+    Hint There may be more than one validation error on the page at time.
+
+    For example, a reservation in the past on a Tuesday violates both rules, so the page should display two errors within a single className="alert alert-danger"
+
+    However, the API validation does not need to include multiple validation error messages. You can run the validation in any order and report only one validation error at a time, and the tests will pass.
+
+    Also, parsing a date in YYYY-MM-DD format using the built-in Date class assumes the date is a UTC date. UTC is a time standard that is the basis for civil time and time zones worldwide, but it is NOT a timezone. As a result, keep an eye out for how your dates are interpreted by the Date class.
     The /reservations API will have the same validations as above and will return 400, along with an informative error message, when a validation error happens.

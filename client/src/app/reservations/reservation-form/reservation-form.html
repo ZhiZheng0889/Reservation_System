@@ -1,0 +1,124 @@
+<section class="mx-auto" aria-labelledby="new-reservation-heading">
+  <div class="mb-4">
+    <h1 id="new-reservation-heading">New reservation</h1>
+    <p class="text-body-secondary mb-0">
+      Enter the customer's details and reservation time.
+    </p>
+  </div>
+
+  @if (apiErrors.length > 0) {
+    <div class="alert alert-danger" role="alert">
+      <p class="fw-semibold mb-1">The reservation could not be saved:</p>
+      <ul class="mb-0">
+        @for (message of apiErrors; track message) {
+          <li>{{ message }}</li>
+        }
+      </ul>
+    </div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label" for="first_name">First name</label>
+        <input
+          class="form-control"
+          id="first_name"
+          name="first_name"
+          type="text"
+          formControlName="first_name"
+          [class.is-invalid]="form.controls.first_name.touched && form.controls.first_name.invalid"
+        />
+        <div class="invalid-feedback">First name is required.</div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label" for="last_name">Last name</label>
+        <input
+          class="form-control"
+          id="last_name"
+          name="last_name"
+          type="text"
+          formControlName="last_name"
+          [class.is-invalid]="form.controls.last_name.touched && form.controls.last_name.invalid"
+        />
+        <div class="invalid-feedback">Last name is required.</div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label" for="mobile_number">Mobile number</label>
+        <input
+          class="form-control"
+          id="mobile_number"
+          name="mobile_number"
+          type="tel"
+          formControlName="mobile_number"
+          [class.is-invalid]="form.controls.mobile_number.touched && form.controls.mobile_number.invalid"
+        />
+        <div class="invalid-feedback">Mobile number is required.</div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label" for="email">Email</label>
+        <input
+          class="form-control"
+          id="email"
+          name="email"
+          type="email"
+          formControlName="email"
+          [class.is-invalid]="form.controls.email.touched && form.controls.email.invalid"
+        />
+        <div class="invalid-feedback">Enter a valid email address.</div>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label" for="reservation_date">Reservation date</label>
+        <input
+          class="form-control"
+          id="reservation_date"
+          name="reservation_date"
+          type="date"
+          formControlName="reservation_date"
+          [class.is-invalid]="form.controls.reservation_date.touched && form.controls.reservation_date.invalid"
+        />
+        <div class="invalid-feedback">Reservation date is required.</div>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label" for="reservation_time">Reservation time</label>
+        <input
+          class="form-control"
+          id="reservation_time"
+          name="reservation_time"
+          type="time"
+          formControlName="reservation_time"
+          [class.is-invalid]="form.controls.reservation_time.touched && form.controls.reservation_time.invalid"
+        />
+        <div class="invalid-feedback">Reservation time is required.</div>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label" for="people_count">Number of people</label>
+        <input
+          class="form-control"
+          id="people_count"
+          name="people_count"
+          type="number"
+          min="1"
+          formControlName="people_count"
+          [class.is-invalid]="form.controls.people_count.touched && form.controls.people_count.invalid"
+        />
+        <div class="invalid-feedback">Party size must be at least 1.</div>
+      </div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+      <button class="btn btn-primary" type="submit" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Saving…' : 'Submit' }}
+      </button>
+      <button class="btn btn-outline-secondary" type="button" (click)="cancel()" [disabled]="isSubmitting">
+        Cancel
+      </button>
+    </div>
+  </form>
+</section>

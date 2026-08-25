@@ -20,4 +20,10 @@
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Reservation.API\Reservation.API.csproj" />
+    <ProjectReference Include="..\Reservation.Application\Reservation.Application.csproj" />
+    <ProjectReference Include="..\Reservation.Infrastructure\Reservation.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

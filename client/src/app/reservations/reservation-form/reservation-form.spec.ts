@@ -95,6 +95,19 @@ describe('ReservationForm', () => {
     );
   });
 
+  it('should display both date errors in one alert for a past Tuesday', () => {
+    fillValidForm();
+    setInputValue('reservation_date', '2020-01-07');
+
+    submitForm();
+
+    const alerts = fixture.nativeElement.querySelectorAll('.alert.alert-danger');
+    expect(alerts).toHaveLength(1);
+    expect(alerts[0].textContent).toContain('Reservation date cannot be a Tuesday.');
+    expect(alerts[0].textContent).toContain('Reservation date must be in the future.');
+    expect(reservationService.create).not.toHaveBeenCalled();
+  });
+
   it('should return to the previous page when cancelled', () => {
     const cancelButton = [...fixture.nativeElement.querySelectorAll('button')].find(
       (button: HTMLButtonElement) => button.textContent?.trim() === 'Cancel',

@@ -6,10 +6,13 @@
     </p>
   </div>
 
-  @if (apiErrors.length > 0) {
+  @if (formErrors.length > 0 || apiErrors.length > 0) {
     <div class="alert alert-danger" role="alert">
       <p class="fw-semibold mb-1">The reservation could not be saved:</p>
       <ul class="mb-0">
+        @for (message of formErrors; track message) {
+          <li>{{ message }}</li>
+        }
         @for (message of apiErrors; track message) {
           <li>{{ message }}</li>
         }

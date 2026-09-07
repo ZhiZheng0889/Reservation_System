@@ -1,14 +1,42 @@
 import { Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { getApiErrorMessages } from '../api-error';
 import { ReservationService } from '../reservation.service';
+
+const futureWorkingDateValidator: ValidatorFn = (
+  control: AbstractControl,
+): ValidationErrors | null => {
+  const value = control.value as string;
+  if (!value) return null;
+
+  const parts = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!parts) return null;
+
+  const [, year, month, day] = parts;
+  const errors: ValidationErrors = {};
+  const reservationDate = Date.UTC(+year, +month - 1, +day);
+  const today = new Date();
+  const todayDate = Date.UTC(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
+  );
+
+  if (new Date(reservationDate).getUTCDay() === 2) errors['closedTuesday'] = true;
+  if (reservationDate <= todayDate) errors['notFuture'] = true;
+
+  return Object.keys(errors).length > 0 ? errors : null;
+};
 
 @Component({
   selector: 'app-reservation-form',
@@ -30,19 +58,28 @@ export class ReservationForm {
       '',
       [Validators.required, Validators.email, Validators.maxLength(100)],
     ],
-    reservation_date: ['', Validators.required],
+    reservation_date: ['', [Validators.required, futureWorkingDateValidator]],
     reservation_time: ['', Validators.required],
     people_count: [1, [Validators.required, Validators.min(1)]],
   });
 
   protected isSubmitting = false;
   protected apiErrors: string[] = [];
+  protected formErrors: string[] = [];
 
   protected submit(): void {
     this.apiErrors = [];
+    this.formErrors = [];
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      const dateErrors = this.form.controls.reservation_date.errors;
+      if (dateErrors?.['closedTuesday']) {
+        this.formErrors.push('Reservation date cannot be a Tuesday.');
+      }
+      if (dateErrors?.['notFuture']) {
+        this.formErrors.push('Reservation date must be in the future.');
+      }
       return;
     }
 

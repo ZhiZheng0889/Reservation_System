@@ -37,6 +37,22 @@ public sealed class ReservationsController(IReservationService reservationServic
             return ValidationProblem(ModelState);
         }
 
+        if (reservationDate.DayOfWeek == DayOfWeek.Tuesday)
+        {
+            ModelState.AddModelError(
+                nameof(request.ReservationDate),
+                "Reservation date cannot be a Tuesday because the restaurant is closed.");
+            return ValidationProblem(ModelState);
+        }
+
+        if (reservationDate <= DateOnly.FromDateTime(DateTime.Today))
+        {
+            ModelState.AddModelError(
+                nameof(request.ReservationDate),
+                "Reservation date must be in the future.");
+            return ValidationProblem(ModelState);
+        }
+
         var command = new CreateReservationCommand(
             request.FirstName!,
             request.LastName!,
